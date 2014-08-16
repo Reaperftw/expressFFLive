@@ -1,0 +1,39 @@
+extends layout
+
+block content
+  div(class='textcontainer')
+    h2
+      | #{title}&nbsp;
+      img(class='textheight', src='/images/raspberrypi.png')
+    p
+      | New and Improved for the 2014/15 season!
+      br
+      | v3.0
+    p
+      | We are currently in Gameweek&nbsp;#{gameweek}
+      br
+      | FFLive status is&nbsp;#{status}
+    h3
+      | Tracked Leagues
+    p
+      | Classic League Pin: 29482-27611
+      br
+      | H2H League Pin: 29482-28716
+
+    table(class='fronttable')
+      tr
+        th
+          b League Name
+        th
+          b Type
+        th
+          b
+      each league, i in leagues
+        tr
+          td
+            =league.name
+          td
+            =league.type
+          td
+            a(href='/league/#{league.ID}/#{gameweek}')
+              | League Table

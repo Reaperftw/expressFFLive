@@ -1,0 +1,27 @@
+extends layout
+
+block content
+  div(class='centredcontainer')
+    p
+      img(class='textheight',src='/images/raspberrypi.png')
+      | &nbsp;
+      a(href='/')
+        | Home
+    h2
+      =title
+    table(class='scorestable')
+      tr
+        th
+          b Manager
+        th
+          b Team Name
+        th
+          b Points
+      each team, i in teams
+        tr
+          td
+            =team.managerName
+          td
+            =team.teamName
+          td
+            =team.liveOP
