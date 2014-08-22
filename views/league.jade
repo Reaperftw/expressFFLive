@@ -9,19 +9,5 @@ block content
         | Home
     h2
       =title
-    table(class='scorestable')
-      tr
-        th
-          b Manager
-        th
-          b Team Name
-        th
-          b Points
-      each team, i in teams
-        tr
-          td
-            =team.managerName
-          td
-            =team.teamName
-          td
-            =team.liveOP
+  table(class='generaltable')
+    block leagueTable

@@ -10,6 +10,7 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var league = require('./routes/league');
+//var teams = require('./routes/teams');
 //var users = require('./routes/users');
 
 var app = express();
@@ -33,6 +34,9 @@ app.use('/', routes);
 app.use('/league/', league);
 app.use('/league/:id', league);
 app.use('/league/:id/:gw', league);
+//app.use('/allTeams/', teams);
+//app.use('/allTeams/:id', teams);
+//app.use('/allTeams/:id/:gw', teams);
 //app.use('/users', users);
 
 /// catch 404 and forward to error handler

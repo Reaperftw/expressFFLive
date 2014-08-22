@@ -1,0 +1,29 @@
+extends league
+
+block leagueTable
+
+  tr
+    th
+      b
+    th
+      b Manager
+    th
+      b Team Name
+    th
+      b Gameweek
+    th
+      b League Points
+  each team, i in teams
+    tr
+      td
+        =team.livePosition
+        | &nbsp;
+        =team.positionDiff
+      td
+        =team.managerName
+      td
+        =team.teamName
+      td
+        =team.gw
+      td
+        =team.liveLP
