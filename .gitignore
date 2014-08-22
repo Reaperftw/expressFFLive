@@ -44,4 +44,9 @@ hs_err_pid*
 
 #cfg Files
 *.cfg
-*.jar
+
+#forever and logs
+foreverStart.txt
+*.log
+
+

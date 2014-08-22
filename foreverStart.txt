@@ -1,1 +1,0 @@
-forever start -l ~/logs/forever.log -o ~/logs/FFLiveOut.log -e ~/logs/FFLiveErr.log /home/btsync/matt/Coding/expressFFLive/bin/www
