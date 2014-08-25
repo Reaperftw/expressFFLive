@@ -141,6 +141,11 @@ button {
 	height:1em;
 }
 
+.arrowheight {
+	height:0.8em;
+	vertical-align:middle;
+}
+
 .scorestable {
 	width: 80%;
 	padding: 10px 5px 5px 5px;
@@ -350,4 +355,25 @@ button {
 	margin-top: 20px;
 	margin-bottom: 30px;
 	border-top: 1px solid #6678b1;
+}
+
+.fullTeamLeftHeader {
+	width: 50%;
+	float: left;
+	text-align: left;
+}
+
+.fullTeamRightHeader {
+	width: 50%;
+	float: right;
+	text-align: right;
+}
+
+.playerBoxTable {
+	float:center;
+	text-align: center;
+	margin-left: 5px;
+	margin-right: 5px;
+	border-left: 2px solid #6678b1;
+	border-right: 2px solid #6678b1;
 }

@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var conn = require('./connection');
+var conn = require('../connection');
 var util = require('util')
 
 router.get('/:id/:gw', function(req, res) {
@@ -23,7 +23,7 @@ router.get('/:id/:gw', function(req, res) {
           return;
         }
 
-        res.render('leagueCL', {title: 'FFLive - ' + nameRows[0].name, 'teams':rows });
+        res.render('Dev/leagueCL', {title: 'FFLive - ' + nameRows[0].name, 'teams':rows });
       });
     }
     else if (leagueType === 'H2H') {
@@ -34,19 +34,19 @@ router.get('/:id/:gw', function(req, res) {
           res.render('404error');
           return;
         }
-        conn.query('SELECT t.home, m.gw,managerName,teamName FROM H2HGW' + gw + ' AS t, teamsGW' + gw + ' AS m WHERE t.home = m.managerID AND t.leagueID = ' + id, function(err3, homeFix) {
+        conn.query('SELECT t.home, m.gw,managerName,teamName FROM FFLiveDev.H2HGW' + gw + ' AS t, FFLiveDev.teamsGW' + gw + ' AS m WHERE t.home = m.managerID AND t.leagueID = ' + id, function(err3, homeFix) {
           if(err3) {
-            console.log(util.inspect(err3));
+            console.log(util.inspect(err2));
             res.render('404error');
             return;
           }
-          conn.query('SELECT t.away, m.gw,managerName,teamName FROM H2HGW' + gw + ' AS t, teamsGW' + gw + ' AS m WHERE t.away = m.managerID AND t.leagueID = ' + id, function(err4, awayFix) {
+          conn.query('SELECT t.away, m.gw,managerName,teamName FROM FFLiveDev.H2HGW' + gw + ' AS t, FFLiveDev.teamsGW' + gw + ' AS m WHERE t.away = m.managerID AND t.leagueID = ' + id, function(err4, awayFix) {
             if(err4) {
-              console.log(util.inspect(err4));
+              console.log(util.inspect(err2));
               res.render('404error');
               return;
             }
-            res.render('leagueH2H', {title: 'FFLive - ' + nameRows[0].name, 'teams':rows, 'away':awayFix, 'home':homeFix});
+            res.render('Dev/leagueH2H', {title: 'FFLive - ' + nameRows[0].name, 'teams':rows, 'away':awayFix, 'home':homeFix});
           });
         });
       });

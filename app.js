@@ -8,7 +8,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var routes = require('./routes/index');
+
+var index = require('./routes/index');
 var league = require('./routes/league');
 //var teams = require('./routes/teams');
 //var users = require('./routes/users');
@@ -29,8 +30,17 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+//Dev Routes
+app.use('/Dev/', require('./routes/Dev/index'));
+app.use('/Dev/league/', require('./routes/Dev/league'));
+app.use('/Dev/league/:id', require('./routes/Dev/league'));
+app.use('/Dev/league/:id/:gw', require('./routes/Dev/league'));
+app.use('/Dev/team/', require('./routes/Dev/team'));
+app.use('/Dev/team/:id/', require('./routes/Dev/team'));
+app.use('/Dev/team/:id/:gw', require('./routes/Dev/team'));
 
-app.use('/', routes);
+
+app.use('/', index);
 app.use('/league/', league);
 app.use('/league/:id', league);
 app.use('/league/:id/:gw', league);
