@@ -49,4 +49,5 @@ hs_err_pid*
 foreverStart.txt
 *.log
 
+node_modules/
 
