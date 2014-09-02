@@ -1,6 +1,6 @@
 //Add Timestamps to the top of the file
 //require('console-stamp')(console, '[HH:mm:ss.l]');
-
+require('log-timestamp');
 var express = require('express');
 var path = require('path');
 var favicon = require('static-favicon');
@@ -11,7 +11,7 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var league = require('./routes/league');
-//var teams = require('./routes/teams');
+var team = require('./routes/team');
 //var users = require('./routes/users');
 
 var app = express();
@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
+/*
 //Dev Routes
 app.use('/Dev/', require('./routes/Dev/index'));
 app.use('/Dev/league/', require('./routes/Dev/league'));
@@ -38,12 +38,15 @@ app.use('/Dev/league/:id/:gw', require('./routes/Dev/league'));
 app.use('/Dev/team/', require('./routes/Dev/team'));
 app.use('/Dev/team/:id/', require('./routes/Dev/team'));
 app.use('/Dev/team/:id/:gw', require('./routes/Dev/team'));
-
+*/
 
 app.use('/', index);
 app.use('/league/', league);
 app.use('/league/:id', league);
 app.use('/league/:id/:gw', league);
+app.use('/team/', team);
+app.use('/team/:id/', team);
+app.use('/team/:id/:gw', team);
 //app.use('/allTeams/', teams);
 //app.use('/allTeams/:id', teams);
 //app.use('/allTeams/:id/:gw', teams);

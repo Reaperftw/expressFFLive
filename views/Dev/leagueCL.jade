@@ -25,7 +25,8 @@ block leagueTable
         td
           =team.managerName
         td
-          =team.teamName
+          a(href='/team/#{team.managerID}/#{gameweek}')
+            =team.teamName
         td
           =team.gw
         td

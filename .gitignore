@@ -46,7 +46,7 @@ hs_err_pid*
 *.cfg
 
 #forever and logs
-foreverStart.txt
+foreverStart.*
 *.log
 
 node_modules/

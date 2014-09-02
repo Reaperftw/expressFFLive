@@ -3,11 +3,13 @@ var router = express.Router();
 var mysql = require('mysql');
 var conn = require('../connection');
 var util = require('util');
+require('log-timestamp');
 
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  
+
+  console.log('');
   conn.query('SELECT * FROM leagues', function(err, lRows) {
     if (err) {  console.log(util.inspect(err));
       res.render('404error');

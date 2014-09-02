@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var conn = require('../connection');
+var conn = require('./connection');
 var util = require('util');
 require('log-timestamp');
 
