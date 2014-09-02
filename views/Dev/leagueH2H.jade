@@ -8,16 +8,22 @@ block leagueTable
     each homeTeam, i in home
       tr
         td
-          a(href='/team/#{homeTeam.managerID}/#{gameweek}')
+          if homeTeam.managerID == 0
             =homeTeam.teamName
+          else
+            a(href='/team/#{homeTeam.managerID}/#{gameweek}')
+              =homeTeam.teamName
         td
           =homeTeam.gw
         td -
         td
           =away[i].gw
         td
-          a(href='/team/#{away[i].managerID}/#{gameweek}')
+          if away[i].managerID == 0
             =away[i].teamName
+          else
+            a(href='/team/#{away[i].managerID}/#{gameweek}')
+              =away[i].teamName
 
 
 
@@ -56,8 +62,11 @@ block leagueTable
         td
           =team.managerName
         td
-          a(href='/team/#{team.managerID}/#{gameweek}')
+          if team.managerID == 0
             =team.teamName
+          else
+            a(href='/team/#{team.managerID}/#{gameweek}')
+              =team.teamName
         td
           =team.gw
         td
