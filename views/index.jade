@@ -8,7 +8,7 @@ block content
     p
       | New and Improved for the 2014/15 season!
       br
-      | v3.0
+      | v3.1
     p
       | We are currently in Gameweek&nbsp;#{gameweek}
       br
@@ -24,6 +24,10 @@ block content
           b Type
         th
           b
+        th
+          b
+        th
+          b
       each league, i in leagues
         tr
           td
@@ -33,3 +37,9 @@ block content
           td
             a(href='/league/#{league.ID}/#{gameweek}')
               | League Table
+          td
+            a(href='/leagueTeams/#{league.ID}/#{gameweek}')
+              | Full Team List
+          td
+            a(href='/graphs/#{league.ID}')
+              | Stats Graphs

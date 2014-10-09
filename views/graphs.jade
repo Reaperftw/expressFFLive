@@ -1,0 +1,193 @@
+doctype html
+html
+  head
+    title=title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='shortcut icon', href='/images/raspberrypi.ico')
+    script(src='http://www.flotcharts.org/flot/jquery.js')
+    script(src='http://www.flotcharts.org/flot/jquery.flot.js')
+    script(src='http://www.flotcharts.org/flot/jquery.flot.selection.js')
+
+    script.
+      var positionOptions = {
+        lines:{
+          show:true
+        },
+        points: {
+          show: true
+        },
+        yaxis: {
+          tickFormatter: function(val, axis) {
+            return val < axis.max ? (val > axis.min ? val.toFixed(0) : "Position") : "";
+          },
+          min: 0,
+          tickDecimals: 0,
+          tickSize: 1,
+          transform: function (v) { return -v; },
+          inverseTransform: function (v) { return -v; }
+        },
+        xaxis: {
+          tickFormatter: function(val, axis) {
+            return val > axis.min ? val.toFixed(0) : "GW";
+          },
+          min: 0,
+          tickDecimals: 0,
+          tickSize: 1
+        },
+        grid: {
+          hoverable: true
+        },
+        legend: {
+        show: true,
+        container: '#legendholder'
+        }
+      };
+
+      var pointsOptions = {
+        lines: {
+          show: true
+        },
+        points: {
+          show: true
+        },
+        yaxis: {
+          tickFormatter: function(val, axis) {
+            return val < axis.max ? (val > axis.min ? val.toFixed(0) : "Pts") : "";
+          },
+          tickDecimals: 0,
+        },
+        xaxis: {
+          tickFormatter: function(val, axis) {
+            return val > axis.min ? val.toFixed(0) : "GW";
+          },
+          min: 0,
+          tickDecimals: 0,
+          tickSize: 1
+        },
+        selection: {
+          mode: "xy"
+        },
+        grid: {
+          hoverable: true
+        },
+        legend: {
+          show: true,
+          container: '#legendholderPoints'
+        },
+      };
+
+      var posData = null;
+      var pointsData = null;
+
+      $(function() {
+
+          //Tooltip definition
+          $("<div id='tooltip'></div>").css({
+            position: "absolute",
+            display: "none",
+            border: "1px solid #fdd",
+            padding: "2px",
+            "background-color": "#fee",
+            opacity: 0.80
+          }).appendTo("body");
+
+          //Hover Tooltip for position Graph
+          $("#positiongraph").bind("plothover", function (event, pos, item) {
+            if (item) {
+              var x = item.datapoint[0].toFixed(0),
+                y = item.datapoint[1].toFixed(0);
+
+                $("#tooltip").html(item.series.label + " GW: " + x + ", #" + y)
+                .css({top: item.pageY+5, left: item.pageX+5})
+                .fadeIn(200);
+            } else {
+              $("#tooltip").hide();
+            }
+          });
+
+          //Hover Tooltip for points Graph
+          $("#pointsgraph").bind("plothover", function (event, pos, item) {
+            if (item) {
+              var x = item.datapoint[0].toFixed(0),
+                y = item.datapoint[1].toFixed(0);
+
+              $("#tooltip").html(item.series.label + " GW: " + x + ", #" + y)
+                .css({top: item.pageY+5, left: item.pageX+5})
+                .fadeIn(200);
+            } else {
+              $("#tooltip").hide();
+            }
+          });
+
+
+          //Select and Zoom Feature
+          $("#pointsgraph").bind("plotselected", function (event, ranges) {
+
+            // clamp the zooming to prevent eternal zoom
+
+            if (ranges.xaxis.to - ranges.xaxis.from < 0.00001) {
+              ranges.xaxis.to = ranges.xaxis.from + 0.00001;
+            }
+
+            if (ranges.yaxis.to - ranges.yaxis.from < 0.00001) {
+              ranges.yaxis.to = ranges.yaxis.from + 0.00001;
+            }
+
+            // do the zooming
+
+            $.plot("#pointsgraph", pointsData,
+              $.extend(true, {}, pointsOptions, {
+                xaxis: { min: ranges.xaxis.from, max: ranges.xaxis.to },
+                yaxis: { min: ranges.yaxis.from, max: ranges.yaxis.to }
+              })
+            );
+          });
+
+
+
+          function onArrival (result) {
+            posData = result;
+            $.plot("#positiongraph", posData, positionOptions);
+          }
+          $.getJSON("/stats/#{id}position.json", onArrival);
+
+
+          function onArrivalPoints (result) {
+            pointsData = result;
+            $.plot("#pointsgraph", pointsData, pointsOptions);
+          }
+          $.getJSON("/stats/#{id}scores.json", onArrivalPoints);
+
+          function reset() {
+            $.plot("#pointsgraph", pointsData, pointsOptions);
+          }
+      });
+
+      function reset() {
+        $.plot("#pointsgraph", pointsData, pointsOptions);
+      }
+
+
+  body
+
+    div(class='textcontainer')
+      p
+        img(class='textheight',src='/images/raspberrypi.png')
+        | &nbsp;
+        a(href='/')
+          | Home
+      h2
+        =title
+
+    div(class='graphcontainer')
+      h3 Overall Positions
+      div(id='positiongraph' class='graphplaceholder')
+      div(id='legendholder' class='ledendcontainer')
+
+    div(class='graphcontainer')
+      h3 Overall Scores - Drag Selection to Zoom
+      div(id='pointsgraph' class='graphplaceholder')
+      div(id='legendholderPoints' class='ledendcontainer')
+      div(id='resetButtonz' class='resetbutton')
+      button(class='buttons' onclick='reset()')
+        | Reset

@@ -12,15 +12,18 @@ block content
     div(class='fullteamcontainer')
       div(class='fullTeamTopHeader')
         div(class='fullTeamLeftHeader')
-          =teamInfo[0].teamName
-          br
-          | Manager:&nbsp;#{teamInfo[0].managerName}
-          br
-          | Gameweek:&nbsp;#{teamInfo[0].gw}
-          br
-          | Overall&nbsp;Points:&nbsp;#{teamInfo[0].liveOP}
+          for teams in allData.teamInfo
+            =teams.teamName
+            br
+            | Manager:&nbsp;#{teams.managerName}
+            br
+            | Gameweek:&nbsp;#{teams.gw}
+            br
+            | Overall&nbsp;Points:&nbsp;#{teams.liveOP}
+            br
+            | Transfers&nbsp;:&nbsp;#{teams.transfers}&nbsp;(#{teams.deductions}pts)
         div(class='fullTeamRightHeader')
-          each league, i in leagueInfo
+          each league in allData.leagueInfo
             if league.type=='H2H'
               a(href='/league/#{league.ID}/#{gameweek}')
                 | #{league.name}
@@ -41,51 +44,101 @@ block content
       div(class='fullTeamRow')
         table(class='playersTable')
           tr
-            each goalkeeper, i in gk
+            each player, i in allData.gkRows
               td
-                =goalkeeper.webName
+                =player.webName
             tr
-              each goalkeeperScore, i in gk
+              each playerScore, i in allData.gkRows
                 td
-                  =goalkeeperScore.score
+                  if playerScore.playerID == playerScore.captainID
+                    =playerScore.score*2
+                    | &nbsp;C
+                  else if playerScore.playerID == playerScore.viceCaptainID
+                    =playerScore.score
+                    | &nbsp;V
+                  else
+                    =playerScore.score
+                  if playerScore.status != 'a'
+                    | &nbsp;
+                    img(class='warningheight', src='/images/status_#{playerScore.status}.png')
       div(class='fullTeamRow')
         table(class='playersTable')
           tr
-            each def, i in defenders
+            each player, i in allData.defRows
               td
-                =def.webName
+                =player.webName
             tr
-              each defScore, i in defenders
+              each playerScore, i in allData.defRows
                 td
-                  =defScore.score
+                  if playerScore.playerID == playerScore.captainID
+                    =playerScore.score*2
+                    | &nbsp;C
+                  else if playerScore.playerID == playerScore.viceCaptainID
+                    =playerScore.score
+                    | &nbsp;V
+                  else
+                    =playerScore.score
+                  if playerScore.status != 'a'
+                    | &nbsp;
+                    img(class='warningheight', src='/images/status_#{playerScore.status}.png')
       div(class='fullTeamRow')
         table(class='playersTable')
           tr
-            each mid, i in midfield
+            each player, i in allData.midRows
               td
-                =mid.webName
+                =player.webName
             tr
-              each midScore, i in midfield
+              each playerScore, i in allData.midRows
                 td
-                  =midScore.score
+                  if playerScore.playerID == playerScore.captainID
+                    =playerScore.score*2
+                    | &nbsp;C
+                  else if playerScore.playerID == playerScore.viceCaptainID
+                    =playerScore.score
+                    | &nbsp;V
+                  else
+                    =playerScore.score
+                  if playerScore.status != 'a'
+                    | &nbsp;
+                    img(class='warningheight', src='/images/status_#{playerScore.status}.png')
       div(class='fullTeamRow')
         table(class='playersTable')
           tr
-            each fwd, i in forwards
+            each player, i in allData.forRows
               td
-                =fwd.webName
+                =player.webName
             tr
-              each fwdScore, i in forwards
+              each playerScore, i in allData.forRows
                 td
-                  =fwdScore.score
+                  if playerScore.playerID == playerScore.captainID
+                    =playerScore.score*2
+                    | &nbsp;C
+                  else if playerScore.playerID == playerScore.viceCaptainID
+                    =playerScore.score
+                    | &nbsp;V
+                  else
+                    =playerScore.score
+                  if playerScore.status != 'a'
+                    | &nbsp;
+                    img(class='warningheight', src='/images/status_#{playerScore.status}.png')
       div(class='fullTeamRow')
         p Bench
-        table(class='benchTable')
+        table(class='playersTable')
           tr
-            each ben, i in bench
+            each player, i in allData.benchRows
               td
-                =ben.webName
+                =player.webName
             tr
-              each benScore, i in bench
+              each playerScore, i in allData.benchRows
                 td
-                  =benScore.score
+                  if playerScore.playerID == playerScore.captainID
+                    =playerScore.score
+                    | &nbsp;C
+                  else if playerScore.playerID == playerScore.viceCaptainID
+                    =playerScore.score
+                    | &nbsp;V
+                  else
+                    =playerScore.score
+                  if playerScore.status != 'a'
+                    | &nbsp;
+                    img(class='warningheight', src='/images/status_#{playerScore.status}.png')

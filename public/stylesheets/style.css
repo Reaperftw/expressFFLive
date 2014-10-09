@@ -146,6 +146,11 @@ button {
 	vertical-align:middle;
 }
 
+.warningheight {
+	height: 1em;
+	vertical-align:middle;
+}
+
 .scorestable {
 	width: 80%;
 	padding: 10px 5px 5px 5px;

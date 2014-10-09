@@ -3,15 +3,60 @@ var router = express.Router();
 var conn = require('./connection');
 var util = require('util');
 
+function allTeams(leagueID, gw, response) {
+  var teamErr = false;
+  conn.query('SELECT managerID, leagueID FROM leagues_teamsGW' + gw + ' WHERE leagueID =' + leagueID, function (err10, teams) {
+    if(err10) {
+      console.log(util.inspect(err10));
+      teamErr = true;
+      callback(teamErr);
+    }
+    else {
+      //console.log(util.inspect(teams));
+      var allTeams = new Object();
+      //console.log(util.inspect(teams));
+      for(var row = 0; row < teams.length; row++) {
+
+        //console.log("for " + util.inspect(row));
+        //console.log("for " + util.inspect(teams[row]));
+        //console.log("for " + teams[row].managerID);
+        var dataCount = 0;
+        getAllTeamData(String(teams[row].managerID), gw, function (err, teamData, manID) {
+          //console.log("In Callback " + util.inspect(teamData));
+          if(err) {
+            //console.log("Err");
+            console.log(util.inspect(err));
+            teamErr = true;
+            response(teamErr);
+          }
+          else {
+            //console.log("Else ");
+            dataCount ++;
+            //console.log("Else " + util.inspect(row));
+            //console.log("Else " + util.inspect(teams[row]));
+            //console.log("Else " + teams[row].managerID);
+            allTeams[manID] = teamData;
+            if(dataCount == teams.length) {
+              response(teamErr, allTeams);
+            }
+          }
+        });
+      }
+    }
+  });
+}
+
 function getAllTeamData(managerID, gw, callback) {
   var globalErr = false;
   var allTeamData = new Object();
+  //console.log("inFunction " + managerID + " " + gw)
   //Get Team Info
   conn.query('SELECT managerName, teamName, gw, liveOP, managerID, transfers, deductions, benchScore FROM teamsGW' + gw +
   ' WHERE managerID = ' + managerID, function (err, teamInfo) {
     if (err) {
       console.log(util.inspect(err));
       globalErr = true;
+      callback(globalErr);
     }
     else {
     //Get League Info
@@ -20,6 +65,7 @@ function getAllTeamData(managerID, gw, callback) {
         if (err0) {
           console.log(util.inspect(err0));
           globalErr = true;
+          callback(globalErr);
         }
         else {
         //Get Gk
@@ -29,6 +75,7 @@ function getAllTeamData(managerID, gw, callback) {
             if (err1) {
               console.log(util.inspect(err1));
               globalErr = true;
+              callback(globalErr);
             }
             else {
               //Get Def
@@ -39,6 +86,7 @@ function getAllTeamData(managerID, gw, callback) {
                 if (err2) {
                   console.log(util.inspect(err2));
                   globalErr = true;
+                  callback(globalErr);
                 }
                 else {
                   //Get Mid
@@ -49,6 +97,7 @@ function getAllTeamData(managerID, gw, callback) {
                     if (err3) {
                       console.log(util.inspect(err3));
                       globalErr = true;
+                      callback(globalErr);
                     }
                     else {
                       //Get For
@@ -58,6 +107,7 @@ function getAllTeamData(managerID, gw, callback) {
                         if (err4) {
                           console.log(util.inspect(err4));
                           globalErr = true;
+                          callback(globalErr);
                         }
                         else {
                           //Get Bench
@@ -68,6 +118,7 @@ function getAllTeamData(managerID, gw, callback) {
                             if (err5) {
                               console.log(util.inspect(err5));
                               globalErr = true;
+                              callback(globalErr);
                             }
                             else {
                               allTeamData.teamInfo = teamInfo;
@@ -77,7 +128,7 @@ function getAllTeamData(managerID, gw, callback) {
                               allTeamData.midRows = midRows;
                               allTeamData.forRows = forRows;
                               allTeamData.benchRows = benchRows;
-                              callback(globalErr, allTeamData);
+                              callback(globalErr, allTeamData, managerID);
                             }
                           });
                         }
@@ -94,25 +145,26 @@ function getAllTeamData(managerID, gw, callback) {
   });
 }
 
-function getData(leagueid, gw, callback) {
-  conn.query('SELECT * FROM leagues_teamsGW' + gw + ' WHERE leagueID = ' + leagueid, function (err, managerIDs) {
-    callback(err, managerIDs);
-  });
-}
-
-
 
 router.get('/:id/:gw', function(req, res) {
   var id = req.params.id;
   var gw = req.params.gw;
-  getAllTeamData(id, gw, function(err, allData) {
-
-    if(err) {
+  conn.query('SELECT * FROM leagues WHERE ID =' + id, function(err1, name) {
+    if (err1) {
+      console.log(util.inspect(err1));
       res.render('404error');
     }
     else {
-      //console.log(util.inspect(allData));
-      res.render('team', {title: 'FFLive - "' + allData.teamInfo[0].teamName + '" for GW:' + gw, 'allData': allData, 'gameweek':gw});
+      allTeams(id, gw, function(err, allData) {
+        //console.log(allData);
+        if(err) {
+          res.render('404error');
+        }
+        else {
+          //console.log(util.inspect(allData));
+          res.render('leagueTeams', {title: 'FFLive - All Teams for "' + name[0].name + '" for GW:' + gw, 'allData': allData, 'gameweek':gw});
+        }
+      });
     }
   });
 });
