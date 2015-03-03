@@ -41,104 +41,104 @@ block content
             else
               | Error Loading
               br
-      div(class='fullTeamRow')
-        table(class='playersTable')
-          tr
-            each player, i in allData.gkRows
-              td
-                =player.webName
+
+
+      each row in allData.fieldRows
+        div(class='fullTeamRow')
+          table(class='playersTable')
             tr
-              each playerScore, i in allData.gkRows
+              each player in row
+                td
+                  =player.webName
+            tr
+              each playerScore in row
                 td
                   if playerScore.playerID == playerScore.captainID
-                    =playerScore.score*2
+                    a(class="tooltip")
+                      =playerScore.score*2
+                      span
+                        table(class='boarderlessTable')
+                            for item in playerScore.breakdown
+                              tr
+                                for field in item
+                                  td
+                                    =field
                     | &nbsp;C
                   else if playerScore.playerID == playerScore.viceCaptainID
-                    =playerScore.score
+                    a(class="tooltip")
+                      =playerScore.score
+                      span
+                        table(class='boarderlessTable')
+                            for item in playerScore.breakdown
+                              tr
+                                for field in item
+                                  td
+                                    =field
                     | &nbsp;V
                   else
-                    =playerScore.score
+                    a(class="tooltip")
+                      =playerScore.score
+                      span
+                        table(class='boarderlessTable')
+                            for item in playerScore.breakdown
+                              tr
+                                for field in item
+                                  td
+                                    =field
+
                   if playerScore.status != 'a'
                     | &nbsp;
-                    img(class='warningheight', src='/images/status_#{playerScore.status}.png')
-      div(class='fullTeamRow')
-        table(class='playersTable')
-          tr
-            each player, i in allData.defRows
-              td
-                =player.webName
-            tr
-              each playerScore, i in allData.defRows
-                td
-                  if playerScore.playerID == playerScore.captainID
-                    =playerScore.score*2
-                    | &nbsp;C
-                  else if playerScore.playerID == playerScore.viceCaptainID
-                    =playerScore.score
-                    | &nbsp;V
-                  else
-                    =playerScore.score
-                  if playerScore.status != 'a'
-                    | &nbsp;
-                    img(class='warningheight', src='/images/status_#{playerScore.status}.png')
-      div(class='fullTeamRow')
-        table(class='playersTable')
-          tr
-            each player, i in allData.midRows
-              td
-                =player.webName
-            tr
-              each playerScore, i in allData.midRows
-                td
-                  if playerScore.playerID == playerScore.captainID
-                    =playerScore.score*2
-                    | &nbsp;C
-                  else if playerScore.playerID == playerScore.viceCaptainID
-                    =playerScore.score
-                    | &nbsp;V
-                  else
-                    =playerScore.score
-                  if playerScore.status != 'a'
-                    | &nbsp;
-                    img(class='warningheight', src='/images/status_#{playerScore.status}.png')
-      div(class='fullTeamRow')
-        table(class='playersTable')
-          tr
-            each player, i in allData.forRows
-              td
-                =player.webName
-            tr
-              each playerScore, i in allData.forRows
-                td
-                  if playerScore.playerID == playerScore.captainID
-                    =playerScore.score*2
-                    | &nbsp;C
-                  else if playerScore.playerID == playerScore.viceCaptainID
-                    =playerScore.score
-                    | &nbsp;V
-                  else
-                    =playerScore.score
-                  if playerScore.status != 'a'
-                    | &nbsp;
-                    img(class='warningheight', src='/images/status_#{playerScore.status}.png')
+                    a(class="tooltip")
+                      img(class='warningheight', src='/images/status_#{playerScore.status}.png')
+                      span
+                        =playerScore.news
+
+
       div(class='fullTeamRow')
         p Bench
-        table(class='playersTable')
+        table(class='benchTable')
           tr
-            each player, i in allData.benchRows
+            each player in allData.benchRows
               td
                 =player.webName
-            tr
-              each playerScore, i in allData.benchRows
-                td
-                  if playerScore.playerID == playerScore.captainID
+          tr
+            each playerScore in allData.benchRows
+              td
+                if playerScore.playerID == playerScore.captainID
+                  a(class="tooltip")
+                    =playerScore.score*2
+                    span
+                      table(class='boarderlessTable')
+                          for item in playerScore.breakdown
+                            tr
+                              for field in item
+                                td
+                                  =field
+                  | &nbsp;C
+                else if playerScore.playerID == playerScore.viceCaptainID
+                  a(class="tooltip")
                     =playerScore.score
-                    | &nbsp;C
-                  else if playerScore.playerID == playerScore.viceCaptainID
+                    span
+                      table(class='boarderlessTable')
+                          for item in playerScore.breakdown
+                            tr
+                              for field in item
+                                td
+                                  =field
+                  | &nbsp;V
+                else
+                  a(class="tooltip")
                     =playerScore.score
-                    | &nbsp;V
-                  else
-                    =playerScore.score
-                  if playerScore.status != 'a'
-                    | &nbsp;
+                    span
+                      table(class='boarderlessTable')
+                          for item in playerScore.breakdown
+                            tr
+                              for field in item
+                                td
+                                  =field
+                if playerScore.status != 'a'
+                  | &nbsp;
+                  a(class="tooltip")
                     img(class='warningheight', src='/images/status_#{playerScore.status}.png')
+                    span
+                      =playerScore.news

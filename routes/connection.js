@@ -11,11 +11,12 @@ var connection = mysql.createConnection({
 
 connection.connect(function(err) {
   if (err) {
-    console.error('/nError Connecting: ' + err.stack);
+    console.error('Error Connecting: ' + err.stack);
     return;
   }
-
-  console.log('Connected to MySQL Server!');
+  else {
+    console.log('Connected to MySQL Server!');
+  }
 });
 
 module.exports = exports = connection;

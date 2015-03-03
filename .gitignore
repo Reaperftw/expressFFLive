@@ -48,6 +48,8 @@ hs_err_pid*
 #forever and logs
 foreverStart.*
 *.log
+ffliveStart.*
 
-node_modules/
+node_modules
 stats/
+public/javascripts/ga.*

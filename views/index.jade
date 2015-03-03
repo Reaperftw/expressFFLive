@@ -5,41 +5,72 @@ block content
     h2
       | #{title}&nbsp;
       img(class='textheight', src='/images/raspberrypi.png')
-    p
-      | New and Improved for the 2014/15 season!
-      br
-      | v3.1
-    p
-      | We are currently in Gameweek&nbsp;#{gameweek}
-      br
-      | FFLive status is&nbsp;#{status}
-    h3
-      | Tracked Leagues
+    div(class='generalContainer')
+      div(class='indexLeftFloat')
+        p
+          | New and Improved for the 2014/15 season!
+          br
+          | v3.1
+        p
+          | We are currently in Gameweek&nbsp;#{gameweek}
+          br
+          | FFLive status is&nbsp;#{status}
+      div(class='indexRightFloat')
+        table(class='indexTable')
+          tr
+            td Top GW Score:&nbsp;
+            td
+              a(href='/team/#{stats.topGW.managerID}/#{gameweek}')
+                =stats.topGW.teamName
+              | &nbsp;- #{stats.topGW.gw}pts
+          tr
+            td Top Team:&nbsp;
+            td
+              a(href='/team/#{stats.topOP.managerID}/#{gameweek}')
+                =stats.topOP.teamName
+              | &nbsp;- #{stats.topOP.liveOP}pts
+          tr
+            td Top Bench:&nbsp;
+            td
+              a(href='/team/#{stats.topBench.managerID}/#{gameweek}')
+                =stats.topBench.teamName
+              | &nbsp;- #{stats.topBench.benchScore}pts
+          tr
+            td Top Player:
+            td #{stats.topPlayer.webName} - #{stats.topPlayer.score}pts (#{stats.topPlayer.playerCount}/#{stats.totalTeams} Teams)
+          tr
+            td Most Picked:
+            td #{stats.playerCount.webName} - #{stats.playerCount.playerCount}/#{stats.totalTeams} Teams (#{stats.playerCount.score}pts)
 
-    table(class='fronttable')
-      tr
-        th
-          b League Name
-        th
-          b Type
-        th
-          b
-        th
-          b
-        th
-          b
-      each league, i in leagues
+    div(class='generalContainer')
+
+      h3
+        | Tracked Leagues
+
+      table(class='fronttable')
         tr
-          td
-            =league.name
-          td
-            =league.type
-          td
-            a(href='/league/#{league.ID}/#{gameweek}')
-              | League Table
-          td
-            a(href='/leagueTeams/#{league.ID}/#{gameweek}')
-              | Full Team List
-          td
-            a(href='/graphs/#{league.ID}')
-              | Stats Graphs
+          th
+            b League Name
+          th
+            b Type
+          th
+            b
+          th
+            b
+          th
+            b
+        each league, i in leagues
+          tr
+            td
+              =league.name
+            td
+              =league.type
+            td
+              a(href='/league/#{league.ID}/#{gameweek}')
+                | League Table
+            td
+              a(href='/leagueTeams/#{league.ID}/#{gameweek}')
+                | Full Team List
+            td
+              a(href='/graphs/#{league.ID}')
+                | Stats Graphs
