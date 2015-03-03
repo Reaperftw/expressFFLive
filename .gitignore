@@ -53,3 +53,5 @@ ffliveStart.*
 node_modules
 stats/
 public/javascripts/ga.*
+
+updateFiles.*
