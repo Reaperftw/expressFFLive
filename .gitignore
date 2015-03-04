@@ -34,6 +34,7 @@ hs_err_pid*
 
 #cfg Files
 *.cfg
+routes/connection.js
 
 #forever and logs
 foreverStart.*

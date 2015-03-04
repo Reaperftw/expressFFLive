@@ -2,11 +2,11 @@ var mysql = require('mysql');
 require('log-timestamp');
 
 var connection = mysql.createConnection({
-    host        : '192.168.1.100',
-    port        : 3306,
-    user        : 'fflive',
-    password    : 'football',
-    database    : 'FFLive'
+    host        : '127.0.0.1',
+    port        : 8080,
+    user        : 'matt',
+    password    : 'password',
+    database    : 'FFLiveDev'
 });
 
 connection.connect(function(err) {
