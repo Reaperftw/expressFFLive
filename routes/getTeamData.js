@@ -35,7 +35,7 @@ function getAllTeamData(managerID, gw, callback) {
               for (n in gkRows) {
                 gkRows[n].breakdown = JSON.parse(gkRows[n].gameweekBreakdown);
               }
-              
+
               //Get Def
               conn.query('SELECT playerID, webName, score, gameweekBreakdown, teamID, currentFixture, nextFixture, status, news, captainID, viceCaptainID' +
               ' FROM playersGW' + gw + ' JOIN teamsGW' + gw +
@@ -48,7 +48,9 @@ function getAllTeamData(managerID, gw, callback) {
                 }
                 else {
                   for (n in defRows) {
+                    console.log(util.inspect(defRows[n]));
                     defRows[n].breakdown = JSON.parse(defRows[n].gameweekBreakdown);
+                    console.log(util.inspect(defRows[n]));
                   }
 
                   //Get Mid

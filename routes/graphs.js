@@ -16,12 +16,16 @@ function getLeagueName(id, callback) {
 }
 
 router.get('/:id', function(req, res) {
-  var id = req.params.id;
   console.log('');
-
-  getLeagueName(id, function(rows) {
-    res.render('graphs', {title: 'FFLive - Stats Graphs for ""' + rows[0].name + '"','id': id});
-  });
+  var id = req.params.id;
+  if(id=='players') {
+    res.render('playersGraph', {title: 'FFLive - Top Player Picks'});
+  }
+  else {
+    getLeagueName(id, function(rows) {
+      res.render('graphs', {title: 'FFLive - Stats Graphs for ""' + rows[0].name + '"','id': id});
+    });
+  }
 });
 
 module.exports = router;

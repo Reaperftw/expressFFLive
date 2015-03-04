@@ -27,23 +27,26 @@ function getStats (gameweek, callback) {
         else {
           stats.topOP = OPScore[0];
           //Top Player
-          conn.query('SELECT webName, score, playerCount FROM playersGW' + gameweek + ' WHERE playerID != -1 ORDER BY score DESC', function(err2, playerScore) {
+          conn.query('SELECT webName, score, playerCount, teamID, gameweekBreakdown FROM playersGW' + gameweek + ' WHERE playerID != -1 ORDER BY score DESC', function(err2, playerScore) {
             if (err2) {
               console.log(util.inspect(err2));
               globalErr = true;
               callback(globalErr);
             }
             else {
-              if(playerScore)
+              //Parse the Gameweek Breakdown
+              playerScore[0].breakdown = JSON.parse(playerScore[0].gameweekBreakdown);
               stats.topPlayer = playerScore[0];
               //Popular Players
-              conn.query('SELECT webName, score, playerCount FROM playersGW' + gameweek + ' ORDER BY playerCount DESC', function(err3, playerCounts) {
+              conn.query('SELECT webName, score, playerCount, teamID, gameweekBreakdown FROM playersGW' + gameweek + ' ORDER BY playerCount DESC', function(err3, playerCounts) {
                 if (err3) {
                   console.log(util.inspect(err3));
                   globalErr = true;
                   callback(globalErr);
                 }
                 else {
+                  //Parse the Gameweek Breakdown
+                  playerCounts[0].breakdown = JSON.parse(playerCounts[0].gameweekBreakdown);
                   stats.playerCount = playerCounts[0];
                   //Number Of Teams
                   conn.query('SELECT count(*) AS teamCount FROM teamsGW' + gameweek, function(err4, teamCount) {

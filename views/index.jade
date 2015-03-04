@@ -37,10 +37,32 @@ block content
               | &nbsp;- #{stats.topBench.benchScore}pts
           tr
             td Top Player:
-            td #{stats.topPlayer.webName} - #{stats.topPlayer.score}pts (#{stats.topPlayer.playerCount}/#{stats.totalTeams} Teams)
+            td #{stats.topPlayer.webName} -
+              a(class='tooltip')
+                | #{stats.topPlayer.score}pts
+                span
+                  table(class='boarderlessTable')
+                      for item in stats.topPlayer.breakdown
+                        tr
+                          for field in item
+                            td
+                              =field
+              |&nbsp;(#{stats.topPlayer.playerCount}/#{stats.totalTeams} Teams)
           tr
             td Most Picked:
-            td #{stats.playerCount.webName} - #{stats.playerCount.playerCount}/#{stats.totalTeams} Teams (#{stats.playerCount.score}pts)
+            td #{stats.playerCount.webName} - #{stats.playerCount.playerCount}/#{stats.totalTeams} Teams (
+              a(class='tooltip')
+                |#{stats.playerCount.score}pts
+                span
+                  table(class='boarderlessTable')
+                      for item in stats.playerCount.breakdown
+                        tr
+                          for field in item
+                            td
+                              =field
+              |) -
+              a(href='/graphs/players')
+                  |&nbsp;History
 
     div(class='generalContainer')
 
