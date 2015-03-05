@@ -7,7 +7,7 @@ function getAllTeamData(managerID, gw, callback) {
   var globalErr = false;
   var allTeamData = new Object();
   //Get Team Info
-  conn.query('SELECT managerName, teamName, gw, liveOP, managerID, transfers, deductions, benchScore FROM teamsGW' + gw +
+  conn.query('SELECT managerName, teamName, gw, liveOP, managerID, transfers, deductions, benchScore, transferIn, transferOut FROM teamsGW' + gw +
   ' WHERE managerID = ' + managerID, function (err, teamInfo) {
     if (err) {
       console.log(util.inspect(err));
@@ -95,45 +95,66 @@ function getAllTeamData(managerID, gw, callback) {
                               for (n in benchRows) {
                                 benchRows[n].breakdown = JSON.parse(benchRows[n].gameweekBreakdown);
                               }
-                              //Sort the bench into order
-                              var benchTemp = new Object(), bench = new Object();
-                              //Gives them a name for position
-                              for (var n = 0; n < 4; n++) {
-                                if(benchRows[n].BenchID1 == benchRows[n].playerID) {
-                                  benchTemp.bench1 = benchRows[n];
-                                }
-                                else if(benchRows[n].BenchID2 == benchRows[n].playerID) {
-                                  benchTemp.bench2 = benchRows[n];
-                                }
-                                else if(benchRows[n].BenchID3 == benchRows[n].playerID) {
-                                  benchTemp.bench3 = benchRows[n];
-                                }
-                                else if(benchRows[n].BenchID4 == benchRows[n].playerID) {
-                                  benchTemp.bench4 = benchRows[n];
-                                }
-                              }
-                              //Finds the position and incerts in order
-                              for(var n = 1; n < 5; n++) {
-                                var id = 'bench' + n;
-                                bench[id] = benchTemp[id];
-                              }
+                              //GetTransfers
+                              var transferIn = teamInfo.transferIn.split(',');
 
-                              allTeamData.teamInfo = teamInfo;
-                              allTeamData.leagueInfo = leagueInfo;
+                              conn.query('SELECT playerID, webName, score, gameweekBreakdown, teamID, currentFixture, nextFixture, status, news' +
+                              ' FROM playersGW' + gw + ' WHERE playerID IN (' + teamInfo.transferOut + ')', function (err6, transfersOut){
+                               if(err6) {
+                                 console.log(util.inspect(err6));
+                                 globalErr = true;
+                               }
+                               else {
+                                 //Parse
+                                 for (n in transfersOut) {
+                                   transfersOut[n].breakdown = JSON.parse(transfersOut[n].gameweekBreakdown);
+                                 }
 
-                              var rows = new Object();
-                              rows.gkRows = gkRows;
-                              rows.defRows = defRows;
-                              rows.midRows = midRows;
-                              rows.forRows = forRows;
+                                 //Sort the bench into order
+                                 var benchTemp = new Object(), bench = new Object();
+                                 //Gives them a name for position
+                                 for (var n = 0; n < 4; n++) {
+                                   if(benchRows[n].BenchID1 == benchRows[n].playerID) {
+                                     benchTemp.bench1 = benchRows[n];
+                                   }
+                                   else if(benchRows[n].BenchID2 == benchRows[n].playerID) {
+                                     benchTemp.bench2 = benchRows[n];
+                                   }
+                                   else if(benchRows[n].BenchID3 == benchRows[n].playerID) {
+                                     benchTemp.bench3 = benchRows[n];
+                                   }
+                                   else if(benchRows[n].BenchID4 == benchRows[n].playerID) {
+                                     benchTemp.bench4 = benchRows[n];
+                                   }
+                                 }
+                                 //Finds the position and incerts in order
+                                 for(var n = 1; n < 5; n++) {
+                                   var id = 'bench' + n;
+                                   bench[id] = benchTemp[id];
+                                 }
 
-                              allTeamData.fieldRows = rows;
+                                 allTeamData.teamInfo = teamInfo;
+                                 allTeamData.leagueInfo = leagueInfo;
+
+                                 var rows = new Object();
+                                 rows.gkRows = gkRows;
+                                 rows.defRows = defRows;
+                                 rows.midRows = midRows;
+                                 rows.forRows = forRows;
+
+                                 var transfers = new Object();
+                                 transfers.transferIn = transferIn;
+                                 transfers.transferOut= transferOut;
+                                 allTeamData.fieldRows = rows;
 
 
-                              allTeamData.benchRows = bench;
-                              //console.log(util.inspect(allTeamData));
-                              callback(globalErr, allTeamData, managerID);
+                                 allTeamData.benchRows = bench;
+                                 //console.log(util.inspect(allTeamData));
+                                 callback(globalErr, allTeamData, managerID);
 
+
+                               }
+                             });
                             }
                           });
                         }

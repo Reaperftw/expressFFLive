@@ -4,13 +4,13 @@ block content
   div(class='textcontainer')
     h2
       | #{title}&nbsp;
-      img(class='textheight', src='/images/raspberrypi.png')
+      img(class='textheight', src='/images/raspberrypi.png', alt='RPi')
     div(class='generalContainer')
       div(class='indexLeftFloat')
         p
           | New and Improved for the 2014/15 season!
           br
-          | v3.1
+          | Added Player Graphs and Transfers v3.5
         p
           | We are currently in Gameweek&nbsp;#{gameweek}
           br
@@ -37,7 +37,9 @@ block content
               | &nbsp;- #{stats.topBench.benchScore}pts
           tr
             td Top Player:
-            td #{stats.topPlayer.webName} -
+            td #{stats.topPlayer.webName}&nbsp;
+              img(class='textheight', src="http://cdn.ismfg.net/static/plfpl/img/badges/badge_#{stats.topPlayer.teamID}.png", alt='#{stats.topPlayer.teamName}')
+              |&nbsp-&nbsp;
               a(class='tooltip')
                 | #{stats.topPlayer.score}pts
                 span
@@ -50,7 +52,9 @@ block content
               |&nbsp;(#{stats.topPlayer.playerCount}/#{stats.totalTeams} Teams)
           tr
             td Most Picked:
-            td #{stats.playerCount.webName} - #{stats.playerCount.playerCount}/#{stats.totalTeams} Teams (
+            td #{stats.playerCount.webName}&nbsp;
+              img(class='textheight', src="http://cdn.ismfg.net/static/plfpl/img/badges/badge_#{stats.playerCount.teamID}.png", alt='#{stats.topPlayer.teamName}')
+              |&nbsp;- #{stats.playerCount.playerCount}/#{stats.totalTeams} Teams (
               a(class='tooltip')
                 |#{stats.playerCount.score}pts
                 span
@@ -60,9 +64,9 @@ block content
                           for field in item
                             td
                               =field
-              |) -
+              |) -&nbsp;
               a(href='/graphs/players')
-                  |&nbsp;History
+                  |History
 
     div(class='generalContainer')
 
