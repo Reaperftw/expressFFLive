@@ -94,10 +94,15 @@ function getAllTeamData(managerID, gw, callback) {
                                 benchRows[n].breakdown = JSON.parse(benchRows[n].gameweekBreakdown);
                               }
                               //GetTransfers
-                              console.log(util.inspect(teamInfo));
-                              console.log(util.inspect(teamInfo[0].transferIn));
+                              //console.log(util.inspect(teamInfo));
+                              //console.log(util.inspect(teamInfo[0].transferIn));
                               var transferIn = teamInfo[0].transferIn.split(',');
-                              console.log(util.inspect(teamInfo[0].transferOut));
+
+                              //console.log(util.inspect(teamInfo[0].transferOut));
+                              //Stops the SQL Load Failing
+                              if(teamInfo[0].transferOut.valueOf() === 'NONE') {
+                                  teamInfo[0].transferOut = '"NONE"'
+                              }
                               conn.query('SELECT playerID, webName, score, gameweekBreakdown, teamID, currentFixture, nextFixture, status, news' +
                               ' FROM playersGW' + gw + ' WHERE playerID IN (' + teamInfo[0].transferOut + ')', function (err6, transfersOut){
                                if(err6) {
@@ -105,7 +110,7 @@ function getAllTeamData(managerID, gw, callback) {
                                  globalErr = true;
                                }
                                else {
-                                 console.log(util.inspect(transfersOut));
+                                 //console.log(util.inspect(transfersOut));
                                  //Parse
                                  for (n in transfersOut) {
                                    transfersOut[n].breakdown = JSON.parse(transfersOut[n].gameweekBreakdown);
@@ -146,6 +151,7 @@ function getAllTeamData(managerID, gw, callback) {
                                  var transfers = new Object();
                                  transfers.transferIn = transferIn;
                                  transfers.transferOut= transfersOut;
+                                 allTeamData.transfers = transfers;
                                  allTeamData.fieldRows = rows;
 
 

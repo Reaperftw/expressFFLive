@@ -51,6 +51,9 @@ block content
                 each player in row
                   td
                     =player.webName
+                    each transfer in team.transfers.transferIn
+                      if player.playerID == transfer
+                        | &nbsp;In
               tr
                 each playerScore in row
                   td
@@ -102,6 +105,9 @@ block content
               each player in team.benchRows
                 td
                   =player.webName
+                  each transfer in team.transfers.transferIn
+                    if player.playerID == transfer
+                      | &nbsp;In
             tr
               each playerScore in team.benchRows
                 td
