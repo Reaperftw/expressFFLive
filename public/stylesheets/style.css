@@ -547,6 +547,8 @@ table.transferTable th {
 	font-weight: normal;
 
 	border-top: 2px solid #6678b1;
+	border-left: 2px solid #6678b1;
+	border-right: 2px solid #6678b1;
 }
 
 table.transferTable td {
@@ -556,6 +558,8 @@ table.transferTable td {
 	text-align: center;
 
 	border-bottom: 2px solid #6678b1;
+	border-left: 2px solid #6678b1;
+	border-right: 2px solid #6678b1;
 }
 
 a.tooltip {
