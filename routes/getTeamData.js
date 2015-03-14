@@ -151,6 +151,7 @@ function getAllTeamData(managerID, gw, callback) {
                                  var transfers = new Object();
                                  transfers.transferIn = transferIn;
                                  transfers.transferOut= transfersOut;
+                                 
                                  allTeamData.transfers = transfers;
                                  allTeamData.fieldRows = rows;
 

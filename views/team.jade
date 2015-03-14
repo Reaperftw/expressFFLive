@@ -21,7 +21,25 @@ block content
             br
             | Overall&nbsp;Points:&nbsp;#{teams.liveOP}pts
             br
-            | Transfers&nbsp;:&nbsp;#{teams.transfers}&nbsp;(#{teams.deductions}pts)
+            if allData.transfers.transferOut.length != 0
+              a(class='tooltip')
+                | Transfers
+                span
+                  table(class='transferTable')
+                    for player in allData.transfers.transferOut
+                      tr
+                        th
+                          =player.webName
+                          | &nbsp;
+                          img(src='/images/transOut.png', class='arrowheight')
+                      tr
+                        td
+                          =player.score
+
+
+            else
+              | Transfers
+            | &nbsp;:&nbsp;#{teams.transfers}&nbsp;(#{teams.deductions}pts)
         div(class='fullTeamRightHeader')
           each league in allData.leagueInfo
             if league.type=='H2H'
