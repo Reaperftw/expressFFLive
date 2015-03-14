@@ -17,9 +17,9 @@ block content
             br
             | Manager:&nbsp;#{teams.managerName}
             br
-            | Gameweek:&nbsp;#{teams.gw}
+            | Gameweek:&nbsp;#{teams.gw}pts
             br
-            | Overall&nbsp;Points:&nbsp;#{teams.liveOP}
+            | Overall&nbsp;Points:&nbsp;#{teams.liveOP}pts
             br
             | Transfers&nbsp;:&nbsp;#{teams.transfers}&nbsp;(#{teams.deductions}pts)
         div(class='fullTeamRightHeader')
@@ -52,7 +52,8 @@ block content
                   =player.webName
                   each transfer in allData.transfers.transferIn
                     if player.playerID == transfer
-                      | &nbsp;In
+                      | &nbsp;
+                      img(src='/images/transIn.png', alt='Transfer In', class='textheight')
             tr
               each playerScore in row
                 td
@@ -106,7 +107,8 @@ block content
                 =player.webName
                 each transfer in allData.transfers.transferIn
                     if player.playerID == transfer
-                      | &nbsp;In
+                      | &nbsp;
+                      img(src='/images/transIn.png', alt='Transfer In', class='textheight')
           tr
             each playerScore in allData.benchRows
               td

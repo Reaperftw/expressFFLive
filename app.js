@@ -8,6 +8,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var io = require('socket.io');
 
+var conn = require('./routes/connection');
 
 var index = require('./routes/index');
 var league = require('./routes/league');

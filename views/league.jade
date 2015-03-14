@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  div(class='centredcontainer')
+  div(class='centredcontainer', style='margin-bottom: 20px')
     p
       img(class='textheight',src='/images/raspberrypi.png', alt='RPi')
       | &nbsp;
@@ -9,4 +9,8 @@ block content
         | Home
     h2
       =title
+    a(href='/leagueTeams/#{id}/#{gameweek}')
+      | All Team Data
+    a(href='/graphs/#{id}', style='padding-left:3em')
+      | Stats
   block leagueTable

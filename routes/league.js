@@ -26,7 +26,7 @@ router.get('/:id/:gw', function(req, res) {
           return;
         }
 
-        res.render('leagueCL', {title: 'FFLive - ' + nameRows[0].name, 'gameweek': gw, 'teams':rows });
+        res.render('leagueCL', {title: 'FFLive - ' + nameRows[0].name, 'id':id, 'gameweek': gw, 'teams':rows });
       });
     }
     else if (leagueType === 'H2H') {
@@ -52,7 +52,7 @@ router.get('/:id/:gw', function(req, res) {
               res.render('404error');
               return;
             }
-            res.render('leagueH2H', {title: 'FFLive - ' + nameRows[0].name, 'gameweek': gw, 'teams':rows, 'away':awayFix, 'home':homeFix});
+            res.render('leagueH2H', {title: 'FFLive - ' + nameRows[0].name,'id':id, 'gameweek': gw, 'teams':rows, 'away':awayFix, 'home':homeFix});
           });
         });
       });

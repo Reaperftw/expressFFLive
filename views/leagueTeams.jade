@@ -14,13 +14,14 @@ block content
         div(class='fullTeamTopHeader')
           div(class='fullTeamLeftHeader')
             for teams in team.teamInfo
-              =teams.teamName
+              a(href='/team/#{teams.managerID}/#{gameweek}')
+                =teams.teamName
               br
               | Manager:&nbsp;#{teams.managerName}
               br
-              | Gameweek:&nbsp;#{teams.gw}
+              | Gameweek:&nbsp;#{teams.gw}pts
               br
-              | Overall&nbsp;Points:&nbsp;#{teams.liveOP}
+              | Overall&nbsp;Points:&nbsp;#{teams.liveOP}pts
               br
               | Transfers&nbsp;:&nbsp;#{teams.transfers}&nbsp;(#{teams.deductions}pts)
           div(class='fullTeamRightHeader')
@@ -53,7 +54,8 @@ block content
                     =player.webName
                     each transfer in team.transfers.transferIn
                       if player.playerID == transfer
-                        | &nbsp;In
+                        | &nbsp;
+                        img(src='/images/transIn.png', alt='Transfer In', class='arrowheight')
               tr
                 each playerScore in row
                   td
@@ -107,7 +109,9 @@ block content
                   =player.webName
                   each transfer in team.transfers.transferIn
                     if player.playerID == transfer
-                      | &nbsp;In
+                      | &nbsp;
+                      img(src='/images/transIn.png', alt='Transfer In', class='arrowheight')
+
             tr
               each playerScore in team.benchRows
                 td
