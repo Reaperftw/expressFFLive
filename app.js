@@ -25,7 +25,18 @@ app.use(favicon(path.join(__dirname,'public','images','raspberrypi.ico')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-//app.use(favicon());
+//Request Log Middleware
+app.use(function (req, res, next) {
+  if (req.url.split('/')[1].valueOf() == 'stylesheets' || req.url.split('/')[1].valueOf() == 'images' || req.url.split('/')[1].valueOf() == 'javascripts') {
+
+  }
+  else {
+    console.log('IP: ' + req.connection.remoteAddress + ', Page: ' + req.url);
+  }
+  next();
+});
+
+
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());

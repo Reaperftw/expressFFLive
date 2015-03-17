@@ -3,6 +3,7 @@ var router = express.Router();
 var mysql = require('mysql');
 var conn = require('./connection');
 var util = require('util');
+var logging = require('./logging');
 require('log-timestamp');
 
 function getStats (gameweek, callback) {
@@ -87,6 +88,7 @@ function getStats (gameweek, callback) {
 router.get('/', function(req, res) {
 
   console.log('');
+  //console.log(util.inspect(req));
   //Get league List
   conn.query('SELECT * FROM leagues', function(err, lRows) {
     if (err) {
