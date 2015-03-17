@@ -17,7 +17,7 @@ function getLeagueName(id, callback) {
 
 router.get('/:id', function(req, res) {
   console.log('');
-  var id = req.params.id;
+  var id = conn.escape(req.params.id);
   if(id=='players') {
     res.render('playersGraph', {title: 'FFLive - Top Player Picks'});
   }

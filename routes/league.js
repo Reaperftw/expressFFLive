@@ -5,8 +5,8 @@ var util = require('util');
 require('log-timestamp');
 
 router.get('/:id/:gw', function(req, res) {
-  var id = req.params.id;
-  var gw = req.params.gw;
+  var id = conn.escape(req.params.id);
+  var gw = conn.escape(req.params.gw);
   console.log('');
   conn.query('SELECT name, type from leagues WHERE ID =' + id, function (err, nameRows) {
     //console.log(util.inspect(nameRows));
