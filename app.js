@@ -27,11 +27,19 @@ app.set('view engine', 'jade');
 
 //Request Log Middleware
 app.use(function (req, res, next) {
-  if (req.url.split('/')[1].valueOf() == 'stylesheets' || req.url.split('/')[1].valueOf() == 'images' || req.url.split('/')[1].valueOf() == 'javascripts') {
-
+  var splitURL = req.url.split('/')[1];
+  if (splitURL.valueOf() == 'stylesheets' || splitURL.valueOf() == 'images' || splitURL.valueOf() == 'javascripts' || splitURL.valueOf() == 'stats') {
+    //Do not need to log all the image requests
   }
   else {
-    console.log('IP: ' + req.connection.remoteAddress + ', Page: ' + req.url);
+    //console.log('IP: ' + req.connection.remoteAddress + ', Page: ' + req.url);
+
+    conn.query('INSERT INTO dashboard (ip, page) VALUES (' + conn.escape(req.connection.remoteAddress) + ',' + conn.escape(req.url) + ')', function (error) {
+      if(error) {
+        console.log("Error storing dashboard data...");
+        console.log(util.inspect(error));
+      }
+    });
   }
   next();
 });
