@@ -16,14 +16,16 @@ connection.connect(function(err) {
   }
   else {
     console.log('Connected to MySQL Server!');
-    /*
-    connection.query('CREATE TABLE IF NOT EXISTS dashboard (time TIMESTAMP, ip VARCHAR(100), page VARCHAR(40000), connections INT)', function (dashErr) {
+
+    connection.query('CREATE TABLE IF NOT EXISTS dashboard (time TIMESTAMP, ip VARCHAR(100), page VARCHAR(40000))', function (dashErr) {
       if (dashErr) {
         console.log('Error Creating Dashboard Table...');
         console.log(util.inspect(dashErr));
       }
+      else {
+        console.log('Dashboard Logging Ready!');
+      }
     });
-    */
   }
 });
 

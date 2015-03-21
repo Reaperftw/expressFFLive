@@ -25,7 +25,26 @@ app.use(favicon(path.join(__dirname,'public','images','raspberrypi.ico')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-//app.use(favicon());
+//Request Log Middleware
+app.use(function (req, res, next) {
+  var splitURL = req.url.split('/')[1];
+  if (splitURL.valueOf() == 'stylesheets' || splitURL.valueOf() == 'images' || splitURL.valueOf() == 'javascripts' || splitURL.valueOf() == 'stats') {
+    //Do not need to log all the image requests
+  }
+  else {
+    //console.log('IP: ' + req.connection.remoteAddress + ', Page: ' + req.url);
+
+    conn.query('INSERT INTO dashboard (ip, page) VALUES (' + conn.escape(req.connection.remoteAddress) + ',' + conn.escape(req.url) + ')', function (error) {
+      if(error) {
+        console.log("Error storing dashboard data...");
+        console.log(util.inspect(error));
+      }
+    });
+  }
+  next();
+});
+
+
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
