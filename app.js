@@ -28,12 +28,9 @@ app.set('view engine', 'jade');
 //Request Log Middleware
 app.use(function (req, res, next) {
   var splitURL = req.url.split('/')[1];
-  if (splitURL.valueOf() == 'stylesheets' || splitURL.valueOf() == 'images' || splitURL.valueOf() == 'javascripts' || splitURL.valueOf() == 'stats') {
-    //Do not need to log all the image requests
-  }
-  else {
-    //console.log('IP: ' + req.connection.remoteAddress + ', Page: ' + req.url);
+  var exclude = ['stylesheets', 'images', 'javascripts', 'stats'];
 
+  if (exclude.indexOf(splitURL) === -1) {
     conn.query('INSERT INTO dashboard (ip, page) VALUES (' + conn.escape(req.connection.remoteAddress) + ',' + conn.escape(req.url) + ')', function (error) {
       if(error) {
         console.log("Error storing dashboard data...");

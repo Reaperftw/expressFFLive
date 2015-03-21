@@ -15,7 +15,7 @@ function getData(leagueid, gw, callback) {
 
 router.get('/:id/:gw', function(req, res) {
   var id = conn.escape(req.params.id);
-  var gw = conn.escape(req.params.gw);
+  var gw = req.params.gw;
 
   getAllTeamData(id, gw, function(err, allData) {
 

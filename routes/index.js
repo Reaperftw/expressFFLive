@@ -3,7 +3,6 @@ var router = express.Router();
 var mysql = require('mysql');
 var conn = require('./connection');
 var util = require('util');
-var logging = require('./logging');
 require('log-timestamp');
 
 function getStats (gameweek, callback) {

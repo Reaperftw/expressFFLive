@@ -40,8 +40,8 @@ function allTeams(leagueID, gw, response) {
 }
 
 router.get('/:id/:gw', function(req, res) {
-  var id = conn.escape(req.params.id);
-  var gw = conn.escape(req.params.gw);
+  var id = req.params.id;
+  var gw = req.params.gw;
   conn.query('SELECT * FROM leagues WHERE ID =' + id, function(err1, name) {
     if (err1) {
       console.log(util.inspect(err1));
