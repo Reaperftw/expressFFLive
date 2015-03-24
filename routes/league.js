@@ -38,14 +38,14 @@ router.get('/:id/:gw', function(req, res) {
           res.render('404error');
           return;
         }
-        conn.query('SELECT t.home, m.gw, m.managerName, m.teamName, m.managerID FROM H2HGW' + gw +
+        conn.query('SELECT t.home, m.gw, m.managerName, m.teamName, m.managerID FROM h2hGW' + gw +
         ' AS t, teamsGW' + gw + ' AS m WHERE t.home = m.managerID AND t.leagueID = ' + id, function(err3, homeFix) {
           if(err3) {
             console.log(util.inspect(err3));
             res.render('404error');
             return;
           }
-          conn.query('SELECT t.away, m.gw, m.managerName, m.teamName, m.managerID FROM H2HGW' + gw +
+          conn.query('SELECT t.away, m.gw, m.managerName, m.teamName, m.managerID FROM h2hGW' + gw +
           ' AS t, teamsGW' + gw + ' AS m WHERE t.away = m.managerID AND t.leagueID = ' + id, function(err4, awayFix) {
             if(err4) {
               console.log(util.inspect(err4));
