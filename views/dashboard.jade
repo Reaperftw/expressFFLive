@@ -1,0 +1,23 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    title=title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='shortcut icon', href='/images/raspberrypi.ico')
+    script(src='https://cdn.socket.io/socket.io-1.3.4.js')
+    script(src='http://code.jquery.com/jquery-2.1.3.min.js')
+    script.
+      var socket = io.connect();
+      socket.on('connect', function () {
+        socket.on('pageview', function (msg) {
+          $('#pageViews').append('<li>' + msg.connections + ' '+ msg.url + ' ' + msg.ip + ' ' + msg.timestamp + '</li>');
+        });
+        socket.on('disconnect', function (msg) {
+          $('#connections').html('Connected:' + msg.connections);
+        });
+      });
+  body
+    h2 Real Time Page Views
+      ul(id='pageViews')
+      ul(id='connections')

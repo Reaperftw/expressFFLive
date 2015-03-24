@@ -23,7 +23,7 @@ router.get('/:id', function(req, res) {
   }
   else {
     getLeagueName(id, function(rows) {
-      res.render('graphs', {title: 'FFLive - Stats Graphs for ""' + rows[0].name + '"','id': id});
+      res.render('graphs', {title: 'FFLive - Stats Graphs for "' + rows[0].name + '"','id': id});
     });
   }
 });
