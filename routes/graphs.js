@@ -1,17 +1,27 @@
 var express = require('express');
 var router = express.Router();
-var conn = require('./connection');
+var pool = require('./connection');
 var util = require('util');
 require('log-timestamp');
 
 function getLeagueName(id, callback) {
-  conn.query('SELECT * FROM leagues WHERE ID = ' + id, function (error, league) {
-    if (error) {
-      console.log(util.inspect(error));
+  pool.getConnection(function(connErr, conn) {
+    if(connErr) {
+      console.log(util.inspect(connErr));
       res.render('404error');
       return;
     }
-    callback(league);
+    else {
+      conn.query('SELECT * FROM leagues WHERE ID = ' + id, function (error, league) {
+        if (error) {
+          console.log(util.inspect(error));
+          res.render('404error');
+          return;
+        }
+        callback(league);
+      });
+    }
+    conn.release();
   });
 }
 

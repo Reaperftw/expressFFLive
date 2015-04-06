@@ -1,13 +1,22 @@
 var express = require('express');
 var router = express.Router();
-var conn = require('./connection');
+var pool = require('./connection');
 var util = require('util');
 require('log-timestamp');
 var getAllTeamData = require('./getTeamData');
 
 function getData(leagueid, gw, callback) {
-  conn.query('SELECT * FROM leagues_teamsGW' + gw + ' WHERE leagueID = ' + leagueid, function (err, managerIDs) {
-    callback(err, managerIDs);
+  pool.getConnection(function(connErr, conn) {
+    if(connErr) {
+      console.log(util.inspect(connErr));
+      callback(connErr);
+    }
+    else {
+      conn.query('SELECT * FROM leagues_teamsGW' + gw + ' WHERE leagueID = ' + leagueid, function (err, managerIDs) {
+        callback(err, managerIDs);
+      });
+    }
+    conn.release();
   });
 }
 
